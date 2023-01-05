@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "deno",
+  "version": "0.0.1",
+  "generators": {
+    "deno": {
+      "factory": "./src/generators/deno/generator",
+      "schema": "./src/generators/deno/schema.json",
+      "description": "deno generator"
+    }
+  }
+}
