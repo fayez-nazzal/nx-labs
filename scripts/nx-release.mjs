@@ -59,6 +59,7 @@ function updatePackageJsonFiles(parsedVersion, isLocal) {
     'package.json',
     'dist/npm/expo/package.json',
     'dist/npm/remix/package.json',
+    'dist/npm/deno/package.json',
   ];
   if (isLocal) {
     pkgFiles = pkgFiles.filter((f) => f !== 'package.json');
