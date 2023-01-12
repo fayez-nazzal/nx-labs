@@ -1,0 +1,7 @@
+import {<%= propertyName %>} from './<%= fileName %>.ts';
+
+describe('<%= propertyName %>', () => {
+  it('should return "<%= projectName %>"', () => {
+    expect(<%= propertyName %>()).toEqual('<%= projectName %>');
+  })
+})

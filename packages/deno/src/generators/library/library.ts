@@ -8,9 +8,9 @@ import {
   Tree,
 } from '@nrwl/devkit';
 import * as path from 'path';
-import { DenoGeneratorSchema } from './schema';
+import { LibraryGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends DenoGeneratorSchema {
+interface NormalizedSchema extends LibraryGeneratorSchema {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
@@ -19,7 +19,7 @@ interface NormalizedSchema extends DenoGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: DenoGeneratorSchema
+  options: LibraryGeneratorSchema
 ): NormalizedSchema {
   const name = names(options.name).fileName;
   const projectDirectory = options.directory
@@ -55,19 +55,37 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   );
 }
 
-export default async function (tree: Tree, options: DenoGeneratorSchema) {
+export async function denoLibraryGenerator(
+  tree: Tree,
+  options: LibraryGeneratorSchema
+) {
   const normalizedOptions = normalizeOptions(tree, options);
+  const targets = {
+    test: {
+      executor: '@nx-labs/deno:test',
+    },
+    lint: {
+      executor: '@nx-labs/deno:lint',
+    },
+  };
+
+  if (normalizedOptions.unitTestRunner === 'none') {
+    delete targets.test;
+  }
+
+  if (normalizedOptions.linter === 'none') {
+    delete targets.lint;
+  }
+
   addProjectConfiguration(tree, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,
     projectType: 'library',
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    targets: {
-      build: {
-        executor: '@nx-labs/deno:build',
-      },
-    },
+    targets,
     tags: normalizedOptions.parsedTags,
   });
   addFiles(tree, normalizedOptions);
   await formatFiles(tree);
 }
+
+export default denoLibraryGenerator;
