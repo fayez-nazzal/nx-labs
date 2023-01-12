@@ -1,7 +1,10 @@
 {
-  "name": "@nx-labs/deno",
+  "name": "@nrwl/deno",
   "version": "0.0.1",
   "main": "src/index.js",
   "generators": "./generators.json",
-  "executors": "./executors.json"
+  "executors": "./executors.json",
+  "dependencies": {
+    "fs-extra": "^11.0.0"
+  }
 }

@@ -10,6 +10,8 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
+console.log(process.argv);
+
 const parsedArgs = yargsParser(process.argv, {
   boolean: ['dry-run', 'local'],
   alias: {
@@ -57,7 +59,6 @@ if (!parsedArgs.local) {
 function updatePackageJsonFiles(parsedVersion, isLocal) {
   let pkgFiles = [
     'package.json',
-    'dist/npm/expo/package.json',
     'dist/npm/remix/package.json',
     'dist/npm/deno/package.json',
   ];

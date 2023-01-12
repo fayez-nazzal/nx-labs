@@ -5,6 +5,15 @@
   "title": "Build executor",
   "description": "",
   "type": "object",
-  "properties": {},
-  "required": []
+  "properties": {
+    "main": {
+      "type": "string",
+      "description": "The entry point for your Deno application"
+    },
+    "outputFile": {
+      "type": "string",
+      "description": "The destination of the bundled JavaScript"
+    }
+  },
+  "required": ["main", "outputFile"]
 }

@@ -1,24 +1,21 @@
 import { ExecutorContext, workspaceRoot } from '@nrwl/devkit';
-import { BuildExecutorSchema } from './schema';
 import { spawn } from 'child_process';
-import { join, resolve, relative } from 'path';
+import { dirname, resolve } from 'path';
+import { BuildExecutorSchema } from './schema';
 
-import { readProjectsConfigurationFromProjectGraph } from 'nx/src/project-graph/project-graph';
+import { ensureDirSync } from 'fs-extra';
 
 export default async function runExecutor(
   options: BuildExecutorSchema,
   context: ExecutorContext
 ) {
-  const allConfigs = readProjectsConfigurationFromProjectGraph(
-    context.projectGraph
-  );
-  const projectConfig = allConfigs.projects[context.projectName];
+  console.log(context);
 
-  const cwd = join(workspaceRoot, projectConfig.root);
-  const main = relative(cwd, resolve(join(context.root, options.main)));
-  const child = spawn('deno', ['compile', main], {
+  ensureDirSync(resolve(workspaceRoot, dirname(options.outputFile)));
+
+  const child = spawn('deno', ['bundle', options.main, options.outputFile], {
     // TODO: cwd should probably be the workspace root
-    cwd,
+    cwd: workspaceRoot,
     stdio: 'inherit',
   });
 
