@@ -13,7 +13,13 @@ export default async function runExecutor(
 
   ensureDirSync(resolve(workspaceRoot, dirname(options.outputFile)));
 
-  const child = spawn('deno', ['bundle', options.main, options.outputFile], {
+  const args = ['bundle', options.main, options.outputFile];
+
+  if (options.importMap) {
+    args.push('--import-map', options.importMap);
+  }
+
+  const child = spawn('deno', args, {
     // TODO: cwd should probably be the workspace root
     cwd: workspaceRoot,
     stdio: 'inherit',

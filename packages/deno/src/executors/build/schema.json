@@ -13,6 +13,10 @@
     "outputFile": {
       "type": "string",
       "description": "The destination of the bundled JavaScript"
+    },
+    "importMap": {
+      "type": "string",
+      "description": "The import_map file"
     }
   },
   "required": ["main", "outputFile"]

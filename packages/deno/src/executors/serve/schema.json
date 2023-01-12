@@ -5,6 +5,15 @@
   "title": "Serve executor",
   "description": "",
   "type": "object",
-  "properties": {},
-  "required": []
+  "properties": {
+    "main": {
+      "type": "string",
+      "description": "The entry point for your Deno application"
+    },
+    "importMap": {
+      "type": "string",
+      "description": "The import_map file"
+    }
+  },
+  "required": ["main"]
 }
