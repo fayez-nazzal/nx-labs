@@ -1,0 +1,9 @@
+export async function handler(request: Request): Promise<Response> {
+  const message = JSON.stringify({"message": "Hello <%= projectName %>"})
+  return new Response(message, {
+    status: 200,
+    headers: {
+      "content-type": "application/json",
+    },
+  });
+};

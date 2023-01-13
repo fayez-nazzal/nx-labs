@@ -1,5 +1,4 @@
-import { workspaceRoot } from '@nrwl/devkit';
-import { spawn } from 'child_process';
+import { runDeno } from '../../utils/run-deno';
 import { ServeExecutorSchema } from './schema';
 
 export default async function* runExecutor(options: ServeExecutorSchema) {
@@ -10,10 +9,7 @@ export default async function* runExecutor(options: ServeExecutorSchema) {
     args.push('--import-map', options.importMap);
   }
 
-  const child = spawn('deno', args, {
-    cwd: workspaceRoot,
-    stdio: 'inherit',
-  });
+  const runningDenoProcess = runDeno(args);
 
   yield { success: true };
 

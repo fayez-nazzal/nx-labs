@@ -6,12 +6,23 @@
     "application": {
       "factory": "./src/generators/application/generator",
       "schema": "./src/generators/application/schema.json",
-      "description": "application generator"
+      "description": "application generator",
+      "aliases": [
+        "app"
+      ]
     },
     "library": {
       "factory": "./src/generators/library/library",
       "schema": "./src/generators/library/schema.json",
-      "description": "library generator"
+      "description": "library generator",
+      "aliases": [
+        "lib"
+      ]
+    },
+    "init": {
+      "factory": "./src/generators/init/generator",
+      "schema": "./src/generators/init/schema.json",
+      "description": "init generator"
     }
   }
 }

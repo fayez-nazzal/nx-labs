@@ -9,6 +9,7 @@ import {
 } from '@nrwl/devkit';
 import * as path from 'path';
 import { ApplicationGeneratorSchema } from './schema';
+import { initDeno } from '../init/generator';
 
 interface NormalizedSchema extends ApplicationGeneratorSchema {
   projectName: string;
@@ -60,6 +61,7 @@ export default async function (
   options: ApplicationGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
+  initDeno(tree);
   addProjectConfiguration(tree, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,
     projectType: 'application',
@@ -67,16 +69,32 @@ export default async function (
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
-        executor: '@nx-labs/deno:build',
+        executor: '@nrwl/deno:build',
+        outputs: [`dist/apps/${normalizedOptions.projectName}`],
+        options: {
+          main: `apps/${normalizedOptions.projectName}/src/main.ts`,
+          outputFile: `dist/apps/${normalizedOptions.projectName}/main.js`,
+        },
       },
       serve: {
-        executor: '@nx-labs/deno:serve',
+        executor: '@nrwl/deno:serve',
+        options: {
+          main: `apps/${normalizedOptions.projectName}/src/main.ts`,
+        },
       },
       test: {
-        executor: '@nx-labs/deno:test',
+        executor: '@nrwl/deno:test',
+        outputs: [`coverage/apps/${normalizedOptions.projectName}`],
+        options: {
+          coverageDirectory: `coverage/apps/${normalizedOptions.projectName}`,
+          typecheck: false,
+        },
       },
       lint: {
-        executor: '@nx-labs/deno:lint',
+        executor: '@nrwl/deno:lint',
+        options: {
+          rules: [],
+        },
       },
     },
     tags: normalizedOptions.parsedTags,

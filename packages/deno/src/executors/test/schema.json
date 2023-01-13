@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "version": 2,
+  "cli": "nx",
+  "title": "Test executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "watch": {
+      "type": "boolean",
+      "description": "Rerun tests when files change",
+      "default": false
+    },
+    "typecheck": {
+      "type": "boolean",
+      "description": "Run typecheck on files",
+      "default": false
+    },
+    "coverageDirectory": {
+      "type": "string",
+      "description": "Directory where coverage reports are output"
+    }
+  },
+  "required": []
+}

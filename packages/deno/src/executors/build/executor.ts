@@ -4,6 +4,7 @@ import { dirname, resolve } from 'path';
 import { BuildExecutorSchema } from './schema';
 
 import { ensureDirSync } from 'fs-extra';
+import { runDeno } from '../../utils/run-deno';
 
 export default async function runExecutor(
   options: BuildExecutorSchema,
@@ -19,14 +20,15 @@ export default async function runExecutor(
     args.push('--import-map', options.importMap);
   }
 
-  const child = spawn('deno', args, {
-    // TODO: cwd should probably be the workspace root
-    cwd: workspaceRoot,
-    stdio: 'inherit',
-  });
+  // const child = spawn('deno', args, {
+  //   cwd: workspaceRoot,
+  //   stdio: 'inherit',
+  // });
+
+  const runningDenoProcess = runDeno(args);
 
   const res = new Promise((res, rej) => {
-    child.on('exit', (code) => {
+    runningDenoProcess.on('exit', (code) => {
       if (code === 0) {
         res({ success: true });
         return;
